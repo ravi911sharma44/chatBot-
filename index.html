@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>chatbot</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container-fluid bg-primary py-3 shadow">
+            <div class="row">
+                <div class="col text-left bi bi-arrow-return-left"> <a href="https://autonise.com" class="text-dark"> <b>Back to Autonise </b></a>  </div>
+                <div class="col text-light text-center"><b><h1>ChatBot</h1></b></div>
+                <div class="col text-right text-dark"><button type="button" class="bg-primary" onclick="clear()"><b>Clear Chat</b></button> </div>
+            </div>
+            
+        </div>
+        <div class="container-fluid bg-light shadow">
+            <div class="row">
+                <div class="col bg-light"></div>
+                <div class="col bg-light">
+                    <table class="table">
+                        <tr>
+                            <th rowspan="2" class="text-right"><img src="chat.svg"></img></th>
+                            <th class="text-left"><b>james</b><br>Your personal assiatnt</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col bg-light"></div>
+            </div>
+        </div>
+        <div class="container-fluid mt-3">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10" id="chatLog">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-10"><input class="input-lg" type="text" id="userBox" onkeydown="if (event.keyCode == 13) {talk()}" placeholder="say something...." rows="5" style="width: 100%; position:fixed;bottom:0;left:0;right:0"></div>
+                
+            </div>
+        </div>
+        <script>
+            
+
+            
+            var userInput = document.getElementById("userBox");
+            var chatLog = document.getElementById("chatLog");
+            function talk(){
+            var p = document.createElement('p');
+            p.innerHTML = userInput.value;
+            p.style.textAlign = 'right';
+            var bot = document.createElement('p');
+
+            var xhr = new XMLHttpRequest();
+            var URL = "http://15.206.34.106/api/";
+            xhr.open("POST", URL , true);
+            xhr.onreadystatechange = function(){
+                if(this.readyState === XMLHttpRequest.DONE && this.status === 200){
+                    bot.innerHTML = this.responseText;
+                    console.log(this.responseText)
+
+
+                }
+            };
+            xhr.send(userInput)
+            
+            bot.style.textAlign = 'left';
+                
+            chatLog.appendChild(p);
+            chatLog.appendChild(bot);
+            userInput.value = "";
+           }
+            function clear(){
+
+            }
+            
+        </script>
+    </body>
+
+</html>
